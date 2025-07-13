@@ -1,4 +1,4 @@
-package com.example.feature_portfolio.presentation
+package com.example.feature_portfolio.presentation.portfolio
 
 import com.example.domain.model.Coin
 import com.example.domain.model.PortfolioAsset
