@@ -58,11 +58,4 @@ object NetworkModule {
     fun provideCoinGeckoApiService(retrofit: Retrofit): CoinGeckoApiService {
         return retrofit.create(CoinGeckoApiService::class.java)
     }
-
-    @Provides
-    @Singleton
-    fun provideCoinRepository(apiService: CoinGeckoApiService): CoinRepository {
-        return CoinRepositoryImpl(apiService)
-    }
-
 }
