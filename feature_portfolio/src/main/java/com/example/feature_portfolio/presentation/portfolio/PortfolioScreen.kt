@@ -24,12 +24,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.domain.model.PortfolioAsset
+import com.example.feature_portfolio.presentation.portfolio.components.AddAssetDialog
 import com.example.feature_portfolio.presentation.portfolio.components.PortfolioAssetItem
 
 @Composable
@@ -37,10 +41,22 @@ fun PortfolioScreen(
     viewModel: PortfolioViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    var showAddDialog by remember { mutableStateOf(false) }
+
+    if (showAddDialog) {
+        AddAssetDialog(
+            availableCoins = state.availableCoins,
+            onDismiss = { showAddDialog = false },
+            onAddAsset = { coin, amount ->
+                viewModel.onEvent(PortfolioEvent.AddAsset(coin, amount))
+                showAddDialog = false
+            }
+        )
+    }
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* TODO: Open add asset dialog */}) {
+            FloatingActionButton(onClick = { showAddDialog = true }) {
                 Icon(imageVector = androidx.compose.material.icons.Icons.Default.Add, contentDescription = "Add Asset")
             }
         }
