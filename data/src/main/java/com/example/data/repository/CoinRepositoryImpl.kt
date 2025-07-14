@@ -4,6 +4,8 @@ import com.example.data.remote.api.CoinGeckoApiService
 import com.example.data.remote.mapper.toDomain
 import com.example.domain.model.Coin
 import com.example.domain.repository.CoinRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CoinRepositoryImpl @Inject constructor(
@@ -17,5 +19,9 @@ class CoinRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override fun getCoinListAsFlow(): Flow<Result<List<Coin>>> = flow {
+        emit(getCoinList())
     }
 }

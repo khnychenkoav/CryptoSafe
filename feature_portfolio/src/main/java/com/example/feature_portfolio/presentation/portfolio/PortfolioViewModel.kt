@@ -48,9 +48,11 @@ class PortfolioViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true, error = null) }
             getCoinListUseCase()
                 .onSuccess { coins ->
+                    println("SUCCESS: Loaded ${coins.size} coins. First coin: ${coins.firstOrNull()}")
                     _state.update { it.copy(isLoading = false, availableCoins = coins) }
                 }
                 .onFailure { error ->
+                    println("FAILURE: $error")
                     _state.update { it.copy(isLoading = false, error = error.message) }
                 }
         }

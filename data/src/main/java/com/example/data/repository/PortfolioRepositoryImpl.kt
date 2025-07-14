@@ -9,6 +9,7 @@ import com.example.domain.repository.CoinRepository
 import com.example.domain.repository.PortfolioRepository
 import com.example.domain.security.CryptoManager
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import java.nio.ByteBuffer
 import javax.inject.Inject
@@ -29,9 +30,11 @@ class PortfolioRepositoryImpl @Inject constructor(
     }
 
     override fun getPortfolio(): Flow<List<PortfolioAsset>> {
-        return portfolioDao.getPortfolio().map { entities ->
-            val remoteCoinsMap = coinRepository.getCoinList()
-                .getOrNull()?.associateBy { it.id }.orEmpty()
+        val localAssetsFlow = portfolioDao.getPortfolio()
+        val remoteCoinsFlow = coinRepository.getCoinListAsFlow()
+
+        return combine(localAssetsFlow, remoteCoinsFlow) { entities, remoteCoinsResult ->
+            val remoteCoinsMap = remoteCoinsResult.getOrNull()?.associateBy { it.id }.orEmpty()
 
             entities.mapNotNull { entity ->
                 val amount = try {

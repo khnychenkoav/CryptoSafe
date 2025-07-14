@@ -9,7 +9,7 @@ fun CoinDto.toDomain(): Coin {
         name = this.name,
         symbol = this.symbol,
         imageUrl = this.image,
-        currentPrice = this.currentPrice ?: 0.0,
-        priceChangePercentage24h = this.priceChangePercentage24h ?: 0.0,
+        currentPrice = this.currentPrice?.toDouble() ?: 0.0,
+        priceChangePercentage24h = this.priceChangePercentage24h?.toDouble() ?: 0.0,
     )
 }
