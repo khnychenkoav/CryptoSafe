@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- PortfolioScreen -->
+    <string name="portfolio_total_value_title">Общая стоимость портфеля</string>
+    <string name="portfolio_empty_state_message">Ваш портфель пуст.\nНажмите +, чтобы добавить актив.</string>
+    <string name="portfolio_error_message">Ошибка: %1$s</string>
+    <string name="portfolio_add_asset_button_description">Add Asset</string>
+
+    <!-- PortfolioAssetItem -->
+    <string name="portfolio_asset_remove_button_description">Remove</string>
+
+    <!-- AddAssetDialog -->
+    <string name="dialog_add_asset_title">Добавить актив</string>
+    <string name="dialog_add_asset_select_coin_placeholder">Выберите монету</string>
+    <string name="dialog_add_asset_amount_label">Количество</string>
+    <string name="dialog_add_asset_button_cancel">Отмена</string>
+    <string name="dialog_add_asset_button_add">Добавить</string>
+</resources>

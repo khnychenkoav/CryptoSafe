@@ -9,10 +9,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.domain.model.Coin
+import com.example.feature_portfolio.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +25,7 @@ fun AddAssetDialog(
 ) {
     var selectedCoin by remember { mutableStateOf<Coin?>(null) }
     var amountText by remember { mutableStateOf("") }
-    val isAddButtonEnabled = selectedCoin != null && amountText.toDoubleOrNull() ?: 0.0 > 0.0
+    val isAddButtonEnabled = selectedCoin != null && (amountText.toDoubleOrNull() ?: 0.0) > 0.0
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
@@ -36,7 +38,7 @@ fun AddAssetDialog(
                 modifier = Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Добавить актив", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.dialog_add_asset_title), style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 ExposedDropdownMenuBox(
@@ -44,11 +46,14 @@ fun AddAssetDialog(
                     onExpandedChange = {}
                 ) {
                     OutlinedTextField(
-                        value = selectedCoin?.name ?: "Выберите монету",
+                        value = selectedCoin?.name ?: stringResource(R.string.dialog_add_asset_select_coin_placeholder),
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = false) },
-                        modifier = Modifier.menuAnchor().fillMaxWidth()
+                        modifier = Modifier.menuAnchor(
+                            type = MenuAnchorType.PrimaryEditable,
+                            enabled = true
+                        ).fillMaxWidth()
                     )
                 }
 
@@ -66,7 +71,7 @@ fun AddAssetDialog(
                 OutlinedTextField(
                     value = amountText,
                     onValueChange = { amountText = it },
-                    label = { Text("Количество") },
+                    label = { Text(stringResource(R.string.dialog_add_asset_amount_label)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -78,7 +83,7 @@ fun AddAssetDialog(
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Отмена")
+                        Text(stringResource(R.string.dialog_add_asset_button_cancel))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
@@ -89,7 +94,7 @@ fun AddAssetDialog(
                         },
                         enabled = isAddButtonEnabled
                     ) {
-                        Text("Добавить")
+                        Text(stringResource(R.string.dialog_add_asset_button_add))
                     }
                 }
             }

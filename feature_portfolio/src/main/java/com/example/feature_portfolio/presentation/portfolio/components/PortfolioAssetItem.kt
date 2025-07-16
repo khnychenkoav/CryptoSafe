@@ -17,13 +17,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.domain.model.PortfolioAsset
+import com.example.feature_portfolio.R
+import java.util.Locale
 
 
 @Composable
-fun PortfolioAssetItem(asset: PortfolioAsset, onRemoveClick: () -> Unit) {
+fun PortfolioAssetItem(
+    asset: PortfolioAsset,
+    onRemoveClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,12 +61,13 @@ fun PortfolioAssetItem(asset: PortfolioAsset, onRemoveClick: () -> Unit) {
             }
 
             Column(horizontalAlignment = Alignment.End) {
-                Text(text = "$${String.format("%.2f", asset.coin.currentPrice * asset.amount)}", style = MaterialTheme.typography.bodyLarge)
-                Text(text = "$${String.format("%.2f", asset.coin.currentPrice)}", style = MaterialTheme.typography.bodySmall)
+                Text(text = "$${String.format(Locale.US, "%.2f", asset.coin.currentPrice * asset.amount)}", style = MaterialTheme.typography.bodyLarge)
+                Text(text = "$${String.format(Locale.US, "%.2f", asset.coin.currentPrice)}", style = MaterialTheme.typography.bodySmall)
             }
 
             IconButton(onClick = onRemoveClick) {
-                Icon(imageVector = androidx.compose.material.icons.Icons.Default.Delete, contentDescription = "Remove")
+                Icon(imageVector = androidx.compose.material.icons.Icons.Default.Delete, contentDescription = stringResource(
+                    R.string.portfolio_asset_remove_button_description))
             }
         }
     }
